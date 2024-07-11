@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homework 1: Tasks for de91</title>
+</head>
+
+<body>
+<h1>Homework 1: Tasks for de91</h1>
+
+<p>Your personal task is to develop a system for marathons and their runners.</p>
+
+<h2>Task 1: Configuration [4 marks]</h2>
+<p>Configure the project to support the use of JSPs as view technology. JSPs must be configured to be placed inside folder <code>src/main/webapp/WEB-INF/views/</code>.</p>
+
+<h2>Task 2: Domain Classes [13 marks]</h2>
+
+<p>Create class <code>co2103.hw1.domain.Runner</code>. With the following private fields:
+<ol>
+  <li><code>String name</code></li>
+  <li><code>String nationality</code></li>
+  <li><code>String category</code></li>
+  <li><code>int number</code></li>
+</ol>
+Generate necessary getters and setters. [7 marks]
+</p>
+
+<p>Create class <code>co2103.hw1.domain.Marathon</code>. With the following private fields:
+<ol>
+  <li><code>int id</code></li>
+  <li><code>String location</code></li>
+  <li><code>String month</code></li>
+  <li><code>List&lt;Runner&gt; runners</code></li>
+</ol>
+Generate necessary getters and setters. [6 marks]
+</p>
+
+
+<h2>Task 3: Controller (simple) [5 marks]</h2>
+<p>Create controller <code>co2103.hw1.controller.MainController</code> [2 marks].
+<ol>
+  <li>Requests for URL <code>"/"</code> (POST and GET) should show the view <code>start</code> (the corresponding JSP already exists). [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 4: Controller, View, and Form [20 marks]</h2>
+
+<p>Create field <code>public static List&lt;Marathon&gt; marathons</code> in class <code>co2103.hw1.Hw1Application</code>. Initialize the list inside class <code>co2103.hw1.Hw1Application</code> to contain one marathon with two runners. [4 marks]</p>
+
+<p>Create controller <code>co2103.hw1.controller.MarathonController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/marathons"</code> should show view <code>marathons/list</code>. [2 marks]
+    <ul>
+      <li>Add the list of all marathons from <code>co2103.hw1.Hw1Application</code> to the model as attribute <code>marathons</code>. [2 marks]</li>
+      <li>Create the corresponding JSP to list the location and month of each marathon followed by a link to URL <code>"/runners?marathon={id of marathon}"</code>, e.g., <code>"/runners?marathon=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newMarathon"</code> should show view <code>marathons/form</code>. [3 marks] Create the corresponding JSP with a form with <code>modelAttribute="marathon"</code> and <code>action="/addMarathon"</code> and inputs for all fields of class <code>Marathon</code> except for <code>runners</code>. [5 marks]</li>
+  <li>POST requests for URL <code>"/addMarathon"</code> should add a new marathon to the list of all marathons in <code>co2103.hw1.Hw1Application</code> and redirect to <code>/marathons</code>. [3 marks]</li>
+</ol>
+</p>
+
+<h2>Task 5: Controller, View, and Form with additional Parameter [33 marks]</h2>
+
+<p>Create controller <code>co2103.hw1.controller.RunnerController</code> and add methods with request mappings for the following behavior:
+<ol>
+  <li>GET requests for URL <code>"/runners"</code> should show view <code>runners/list</code>. [2 marks]
+    <ul>
+      <li>Based on request parameter <code>marathon</code> determine the corresponding marathon from <code>co2103.hw1.Hw1Application</code>. [2 marks]</li>
+      <li>Add the list of all runners of that marathon to the model as attribute <code>runners</code>. [2 marks]</li>
+      <li>Create the corresponding JSP for the view to list the name, nationality, category, and number of each runner. [4 marks]</li>
+      <li>At the end of the list in the JSP add a link to URL <code>"/newRunner?marathon={id of marathon whose runners are listed}"</code>, e.g., <code>"/newRunner?marathon=3"</code>. [4 marks]</li>
+    </ul>
+  </li>
+  <li>Requests for URL <code>"/newRunner"</code> should show view <code>runners/form</code>. [3 marks]
+    <ul>
+      <li>Create the corresponding JSP with a form with <code>modelAttribute="runner"</code> and <code>action="/addRunner"</code> and inputs for all fields of class <code>Runner</code>. [6 marks]</li>
+      <li>Also add the request parameter <code>marathon</code> with the ID of the current marathon. [4 marks]</li>
+    </ul>
+  </li>
+  <li>POST requests for URL <code>"/addRunner"</code> should add a new runner to the list of runners of the marathon identified by request parameter <code>marathon</code> and then redirect to <code>/marathons</code>. [6 marks]</li>
+</ol>
+</p>
+
+<h2>Task 6: Validation [25 marks]</h2>
+
+<p>Set up a validator for class <code>Marathon</code> and make it available in controller <code>MarathonController</code>. [4 marks]</p>
+<p>When adding a new marathon validate that
+  <ol>
+    <li>The value of field <code>id</code> is unique within the list <code>Hw1Application.marathons</code>. [3 marks]</li>
+    <li>The value of field <code>location</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>month</code> is not empty. [2 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+
+<p>Set up a validator for class <code>Runner</code> and make it available in controller <code>RunnerController</code>. [4 marks]</p>
+<p>When adding a new runner validate that
+  <ol>
+    <li>The value of field <code>name</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>nationality</code> is not empty. [2 marks]</li>
+    <li>The value of field <code>category</code> is either <code>"Professional"</code>, <code>"Amateur"</code>, or <code>"Under 18s"</code>. [3 marks]</li>
+    <li>The value of field <code>number</code> is between (including) 1 and 500. [3 marks]</li>
+  </ol>
+  In case of validation errors go back to the form and show error messages for each field in the form.
+</p>
+
+</body>
+
+</html>
